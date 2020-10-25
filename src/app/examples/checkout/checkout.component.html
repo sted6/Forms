@@ -1,0 +1,10 @@
+
+<form [formGroup]="shippingInfo" class="shipping-info">
+  <div>
+    <input formControlName="firstName">
+    <div class="errors" *ngIf="shippingInfo.controls.firstName.errors && shippingInfo.controls.firstName.touched">
+      <div>Your first name is required.</div>
+    </div>
+  </div>
+</form>
+
