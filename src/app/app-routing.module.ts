@@ -1,9 +1,9 @@
 import { NotFoundComponent } from './views/not-found/not-found.component';
 import { DashboardComponent } from './views/dashboard/dashboard.component';
 import { ProfileDetailsComponent } from './examples/profile-details/profile-details.component';
-import { CheckoutComponent } from './examples/checkout/checkout.component';
 import { NgModule } from '@angular/core';
 import { Routes, RouterModule } from '@angular/router';
+import { CheckoutComponent } from './examples/checkout/checkout.component';
 
 
 const routes: Routes = [
