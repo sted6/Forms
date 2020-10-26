@@ -1,6 +1,6 @@
 import { Component } from '@angular/core';
 import { BreakpointObserver, Breakpoints } from '@angular/cdk/layout';
-import { Observable } from 'rxjs';
+import { Observable, Subject } from 'rxjs';
 import { map, shareReplay } from 'rxjs/operators';
 
 @Component({
@@ -9,6 +9,7 @@ import { map, shareReplay } from 'rxjs/operators';
   styleUrls: ['./main-nav.component.scss']
 })
 export class MainNavComponent {
+  navOpened = true;
 
   isHandset$: Observable<boolean> = this.breakpointObserver.observe(Breakpoints.Handset)
     .pipe(
@@ -17,5 +18,9 @@ export class MainNavComponent {
     );
 
   constructor(private breakpointObserver: BreakpointObserver) {}
+
+  toggleNav() {
+    this.navOpened = !this.navOpened;
+  }
 
 }

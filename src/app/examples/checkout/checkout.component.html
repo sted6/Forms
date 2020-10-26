@@ -1,9 +1,8 @@
-<form [formGroup]="addressForm" novalidate (ngSubmit)="onSubmit()">
-  <mat-card class="shipping-card">
-    <mat-card-header>
-      <mat-card-title>Shipping Information</mat-card-title>
-    </mat-card-header>
+<form [formGroup]="checkoutForm" novalidate (ngSubmit)="submit()">
+  <mat-card class="checkout-card">
+    <mat-card-title [style.margin-bottom.px]="20">Checkout</mat-card-title>
     <mat-card-content>
+      <h3>Shipping</h3>
       <div class="row">
         <div class="col">
           <mat-form-field class="full-width">
@@ -15,7 +14,7 @@
         <div class="col">
           <mat-form-field class="full-width">
             <input matInput placeholder="First name" formControlName="firstName">
-            <mat-error *ngIf="addressForm.controls['firstName'].hasError('required')">
+            <mat-error *ngIf="checkoutForm.controls['firstName'].hasError('required')">
               First name is <strong>required</strong>
             </mat-error>
           </mat-form-field>
@@ -23,7 +22,7 @@
         <div class="col">
           <mat-form-field class="full-width">
             <input matInput placeholder="Last name" formControlName="lastName">
-            <mat-error *ngIf="addressForm.controls['lastName'].hasError('required')">
+            <mat-error *ngIf="checkoutForm.controls['lastName'].hasError('required')">
               Last name is <strong>required</strong>
             </mat-error>
           </mat-form-field>
@@ -33,7 +32,7 @@
         <div class="col">
           <mat-form-field class="full-width">
             <textarea matInput placeholder="Address" formControlName="address"></textarea>
-            <mat-error *ngIf="addressForm.controls['address'].hasError('required')">
+            <mat-error *ngIf="checkoutForm.controls['address'].hasError('required')">
               Address is <strong>required</strong>
             </mat-error>
           </mat-form-field>
@@ -41,7 +40,7 @@
       </div>
       <div class="row" *ngIf="!hasUnitNumber">
         <div class="col">
-          <button mat-button type="button" (click)="hasUnitNumber = !hasUnitNumber">
+          <button mat-button type="button" (click)="toggleHasUnitNumber()">
             + Add C/O, Apt, Suite, Unit
           </button>
         </div>
@@ -57,7 +56,7 @@
         <div class="col">
           <mat-form-field class="full-width">
             <input matInput placeholder="City" formControlName="city">
-            <mat-error *ngIf="addressForm.controls['city'].hasError('required')">
+            <mat-error *ngIf="checkoutForm.controls['city'].hasError('required')">
               City is <strong>required</strong>
             </mat-error>
           </mat-form-field>
@@ -69,7 +68,7 @@
                 {{ state.name }}
               </mat-option>
             </mat-select>
-            <mat-error *ngIf="addressForm.controls['state'].hasError('required')">
+            <mat-error *ngIf="checkoutForm.controls['state'].hasError('required')">
               State is <strong>required</strong>
             </mat-error>
           </mat-form-field>
@@ -78,20 +77,163 @@
       <div class="row">
         <div class="col">
           <mat-form-field class="full-width">
-            <input matInput #postalCode maxlength="5" placeholder="Postal Code" type="number" formControlName="postalCode">
-            <mat-hint align="end">{{postalCode.value.length}} / 5</mat-hint>
+            <input matInput #postalCode maxlength="5" placeholder="Postal Code" formControlName="postalCode">
+            <mat-hint [style.color]="postalCode.value.length != 5 && checkoutForm.controls.postalCode.touched ? '#f44336' : 'rgba(0,0,0,.54)'" align="end">{{postalCode.value.length}} / 5</mat-hint>
+              <mat-error *ngIf="checkoutForm.controls['postalCode'].hasError('required')">
+                Postal Code is <strong>required</strong>
+              </mat-error>
+              <mat-error *ngIf="checkoutForm.controls['postalCode'].hasError('pattern')">
+                Numbers only please.
+              </mat-error>
+          </mat-form-field>
+        </div>
+      </div>
+      <div class="row wrap">
+        <div class="col">
+          <mat-radio-group formControlName="shipping" (change)="this.setShippingCost();">
+            <mat-radio-button value="free">Free Shipping</mat-radio-button>
+            <mat-radio-button value="priority">Priority Shipping</mat-radio-button>
+            <mat-radio-button value="twoday">Two Day Shipping</mat-radio-button>
+            <mat-radio-button value="nextday">Next Day Shipping</mat-radio-button>
+          </mat-radio-group>
+        </div>
+
+          <div class="shipping-cost">
+            Total: {{ totalCost | currency }}
+          </div>
+
+      </div>
+      <h3 [style.margin-top.px]="10">Billing</h3>
+      <h4>Payment Information</h4>
+      <div class="row">
+        <div class="col">
+          <mat-form-field class="full-width">
+            <input matInput #cc maxlength="16" placeholder="Credit Card Number" formControlName="ccNumber">
+            <mat-hint [style.color]="cc.value.length != 16 && checkoutForm.controls.ccNumber.touched ? '#f44336' : 'rgba(0,0,0,.54)'" align="end">{{cc.value.length}} / 16</mat-hint>
+              <mat-error *ngIf="checkoutForm.controls['ccNumber'].hasError('required')">
+                Credit Card Number is <strong>required</strong>
+              </mat-error>
+              <mat-error *ngIf="checkoutForm.controls['ccNumber'].hasError('pattern')">
+                Numbers only please.
+              </mat-error>
           </mat-form-field>
         </div>
       </div>
       <div class="row">
         <div class="col">
-          <mat-radio-group formControlName="shipping">
-            <mat-radio-button value="free">Free Shipping</mat-radio-button>
-            <mat-radio-button value="priority">Priority Shipping</mat-radio-button>
-            <mat-radio-button value="nextday">Next Day Shipping</mat-radio-button>
-          </mat-radio-group>
+          <mat-form-field class="full-width">
+            <input matInput placeholder="Full Name on Card" formControlName="ccName">
+              <mat-error *ngIf="checkoutForm.controls['ccName'].hasError('required')">
+                Name on Card is <strong>required</strong>
+              </mat-error>
+          </mat-form-field>
+        </div>
+        <div class="col">
+          <mat-form-field class="full-width">
+            <input matInput maxlength="5" placeholder="CVV/CVC" formControlName="ccCVV">
+              <mat-error *ngIf="checkoutForm.controls['ccCVV'].hasError('required')">
+                Postal Code is <strong>required</strong>
+              </mat-error>
+              <mat-error *ngIf="checkoutForm.controls['ccCVV'].hasError('pattern')">
+                Numbers only please.
+              </mat-error>
+          </mat-form-field>
         </div>
       </div>
+      <h4>Billing Address</h4>
+      <div class="row">
+        <div class="col">
+          <mat-checkbox checked="true" (change)="toggleBilling()" color="primary">Billing same as Shipping</mat-checkbox>
+        </div>
+      </div>
+      <ng-container *ngIf="!sameBilling">
+        <div class="row">
+          <div class="col">
+            <mat-form-field class="full-width">
+              <input matInput placeholder="Company" formControlName="companyB">
+            </mat-form-field>
+          </div>
+        </div>
+        <div class="row">
+          <div class="col">
+            <mat-form-field class="full-width">
+              <input matInput placeholder="First name" formControlName="firstNameB">
+              <mat-error *ngIf="checkoutForm.controls['firstNameB'].hasError('required')">
+                First name is <strong>required</strong>
+              </mat-error>
+            </mat-form-field>
+          </div>
+          <div class="col">
+            <mat-form-field class="full-width">
+              <input matInput placeholder="Last name" formControlName="lastNameB">
+              <mat-error *ngIf="checkoutForm.controls['lastNameB'].hasError('required')">
+                Last name is <strong>required</strong>
+              </mat-error>
+            </mat-form-field>
+          </div>
+        </div>
+        <div class="row">
+          <div class="col">
+            <mat-form-field class="full-width">
+              <textarea matInput placeholder="Address" formControlName="addressB"></textarea>
+              <mat-error *ngIf="checkoutForm.controls['addressB'].hasError('required')">
+                Address is <strong>required</strong>
+              </mat-error>
+            </mat-form-field>
+          </div>
+        </div>
+        <div class="row" *ngIf="!hasUnitNumberB">
+          <div class="col">
+            <button mat-button type="button" (click)="hasUnitNumberB = !hasUnitNumberB">
+              + Add C/O, Apt, Suite, Unit
+            </button>
+          </div>
+        </div>
+        <div class="row" *ngIf="hasUnitNumberB">
+          <div class="col">
+            <mat-form-field class="full-width">
+              <textarea matInput placeholder="Address 2" formControlName="address2B"></textarea>
+            </mat-form-field>
+          </div>
+        </div>
+        <div class="row">
+          <div class="col">
+            <mat-form-field class="full-width">
+              <input matInput placeholder="City" formControlName="cityB">
+              <mat-error *ngIf="checkoutForm.controls['cityB'].hasError('required')">
+                City is <strong>required</strong>
+              </mat-error>
+            </mat-form-field>
+          </div>
+          <div class="col">
+            <mat-form-field class="full-width">
+              <mat-select placeholder="State" formControlName="stateB">
+                <mat-option *ngFor="let state of states" [value]="state.abbreviation">
+                  {{ state.name }}
+                </mat-option>
+              </mat-select>
+              <mat-error *ngIf="checkoutForm.controls['stateB'].hasError('required')">
+                State is <strong>required</strong>
+              </mat-error>
+            </mat-form-field>
+          </div>
+        </div>
+        <div class="row">
+          <div class="col">
+            <mat-form-field class="full-width">
+              <input matInput #postalCodeB maxlength="5" placeholder="Postal Code" formControlName="postalCodeB">
+              <mat-hint [style.color]="postalCodeB.value.length != 5 && checkoutForm.controls.postalCodeB.touched ? '#f44336' : 'rgba(0,0,0,.54)'" align="end">{{postalCodeB.value.length}} / 5</mat-hint>
+              <mat-error *ngIf="checkoutForm.controls['postalCodeB'].hasError('required')">
+                Postal Code is <strong>required</strong>
+              </mat-error>
+              <mat-error *ngIf="checkoutForm.controls['postalCodeB'].hasError('pattern')">
+                Numbers only please.
+              </mat-error>
+            </mat-form-field>
+          </div>
+        </div>
+      </ng-container>
+
     </mat-card-content>
     <mat-card-actions>
       <button mat-raised-button color="primary" type="submit">Submit</button>
