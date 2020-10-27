@@ -23,6 +23,8 @@ import { MatRadioModule } from '@angular/material/radio';
 import { MatCardModule } from '@angular/material/card';
 import { MatCheckboxModule } from '@angular/material/checkbox';
 import { ToastrModule } from 'ngx-toastr';
+import { FormPreviewComponent } from './views/dashboard/form-preview/form-preview.component';
+import { CommonModule } from '@angular/common';
 
 
 @NgModule({
@@ -33,7 +35,8 @@ import { ToastrModule } from 'ngx-toastr';
     DashboardComponent,
     NotFoundComponent,
     MainNavComponent,
-    CheckoutComponent
+    CheckoutComponent,
+    FormPreviewComponent
   ],
   imports: [
     BrowserModule,
@@ -54,6 +57,7 @@ import { ToastrModule } from 'ngx-toastr';
     MatCardModule,
     MatCheckboxModule,
     ToastrModule.forRoot(),
+    CommonModule
   ],
   providers: [],
   bootstrap: [AppComponent]

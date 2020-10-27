@@ -1,1 +1,10 @@
-<p>dashboard works!</p>
+<ng-container *ngFor="let preview of formPreviews">
+  <div class="flex wrap jc-center ai-center mt50">
+    <app-form-preview
+    [title]="preview.title"
+    [description]="preview.description"
+    [imageSrc]="preview.imageSrc"
+    [tinyImageSrc]="preview.tinyImageSrc"
+    [imageAlt]="preview.imageAlt"></app-form-preview>
+  </div>
+</ng-container>

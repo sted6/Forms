@@ -1,0 +1,13 @@
+:host {
+  width: 600px;
+}
+
+img {
+  &.tiny {
+    width: 200px;
+  }
+
+  &.small {
+    width: 100%;
+  }
+}

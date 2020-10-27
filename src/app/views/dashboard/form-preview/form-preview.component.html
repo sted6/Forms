@@ -1,0 +1,21 @@
+<mat-card>
+  <mat-card-title-group>
+      <mat-card-title>{{ title }}</mat-card-title>
+  </mat-card-title-group>
+  <mat-card-content>
+      {{ description }}
+  </mat-card-content>
+  <mat-card-actions align="start">
+      <button (click)="notLoggedIn()"mat-button>Download Component Files</button>
+      <button mat-button routerLink="/checkout">View Sample</button>
+  </mat-card-actions>
+  <div class="flex jc-center">
+    <img
+      *ngIf="hovered"
+      [@hovered]
+      matCardImage
+      [src]="imageSrc"
+      [alt]="imageAlt"
+      class="small" />
+  </div>
+</mat-card>
