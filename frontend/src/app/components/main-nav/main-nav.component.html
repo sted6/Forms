@@ -1,0 +1,40 @@
+<mat-sidenav-container class="sidenav-container">
+  <mat-sidenav #drawer class="sidenav" fixedInViewport
+      [attr.role]="(isHandset$ | async) ? 'dialog' : 'navigation'"
+      [mode]="(isHandset$ | async) ? 'over' : 'side'"
+      [opened]="(isHandset$ | async) === false && navOpened === true">
+    <mat-toolbar>Samples</mat-toolbar>
+    <mat-nav-list>
+      <a mat-list-item routerLink="/checkout" routerLinkActive="active-link">Checkout Sample Form</a>
+      <a mat-list-item routerLink="/profile-details" routerLinkActive="active-link">Detailed Profile Sample Form</a>
+      <a mat-list-item class="bottom" routerLink="/" routerLinkActive="active-link" [routerLinkActiveOptions]="{exact: true}">Dashboard</a>
+    </mat-nav-list>
+  </mat-sidenav>
+  <mat-sidenav-content>
+    <mat-toolbar color="primary">
+      <button
+        type="button"
+        aria-label="Toggle sidenav"
+        mat-icon-button
+        (click)="drawer.toggle()"
+        *ngIf="isHandset$ | async">
+        <mat-icon aria-label="Side nav toggle icon">menu</mat-icon>
+      </button>
+      <ng-container *ngIf="!(isHandset$ | async)">
+        <div [@navState]="navOpened ? 'open' : 'closed'" class="toggle-nav" (click)="drawer.toggle(); animateToggler()"></div>
+      </ng-container>
+      <span>Sample Forms</span>
+      <ng-container *ngIf="(isLoggedIn$ | async)">
+        <div class="flex jc-end w100">
+          <span (click)="signOut()">Signout</span>
+        </div>
+      </ng-container>
+      <ng-container *ngIf="!(isLoggedIn$ | async)">
+        <div class="flex jc-end w100">
+          <span (click)="goToSignin()">Signin</span>
+        </div>
+      </ng-container>
+    </mat-toolbar>
+    <router-outlet></router-outlet>
+  </mat-sidenav-content>
+</mat-sidenav-container>
