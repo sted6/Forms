@@ -27,14 +27,15 @@ app.get('/api/users/', async (req, res) => {
 
 app.post('/api/signup/', jsonParser, async (req, res) => {
     const data = req.body;
+    console.log(data);
     try {
         const doc = await client.query(
             q.Create(
                 q.Collection("users"),
                 {
-                  credentials: { password: req.password },
+                  credentials: { password: data.password },
                   data: {
-                    username: req.username,
+                    username: data.username,
                   },
                 }
               )

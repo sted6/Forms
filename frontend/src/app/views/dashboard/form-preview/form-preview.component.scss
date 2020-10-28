@@ -1,8 +1,15 @@
 :host {
   width: 600px;
+  margin: 10px;
 }
 
 img {
+  &.premium {
+    filter: blur(8px);
+    -webkit-filter: blur(8px);
+    cursor: not-allowed;
+  }
+
   &.tiny {
     width: 200px;
   }

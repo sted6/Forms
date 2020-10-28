@@ -7,6 +7,7 @@ body { margin: 0; font-family: Roboto, "Helvetica Neue", sans-serif; }
 .mat-form-field-infix {
   width: 100% !important;
 }
+// Flex display
 
 .flex {
   display: flex;
@@ -32,6 +33,12 @@ body { margin: 0; font-family: Roboto, "Helvetica Neue", sans-serif; }
   }
 }
 
+.pointer {
+  cursor: pointer;
+}
+
+// Spacing
+
 .mt50 {
   margin-top: 50px;
 }
@@ -42,4 +49,32 @@ body { margin: 0; font-family: Roboto, "Helvetica Neue", sans-serif; }
 
 .w100 {
   width: 100%;
+}
+
+.pad-children-x10 {
+  & > * {
+    padding-left: 10px;
+    padding-right: 10px;
+  }
+}
+
+.pad-children-y10 {
+  & > * {
+    padding-top: 10px;
+    padding-bottom: 10px;
+  }
+}
+.pad-children-l10 {
+  & > * {
+    padding-left: 10px;
+  }
+}
+.pad-children-r10 {
+  & > * {
+    padding-right: 10px;
+  }
+}
+
+.mat-button.mat-button-disabled {
+  cursor: not-allowed !important;
 }

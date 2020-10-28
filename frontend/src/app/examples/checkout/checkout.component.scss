@@ -38,3 +38,7 @@ form {
   font-size: clamp(24px, calc(2rem + 2vw + 1vh), 70px);
     line-height: clamp(48px, calc(4rem + 2vw + 1vh), 105px);
 }
+
+textarea.address {
+  max-height: 200px;
+}

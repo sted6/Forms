@@ -6,7 +6,7 @@
     <mat-toolbar>Samples</mat-toolbar>
     <mat-nav-list>
       <a mat-list-item routerLink="/checkout" routerLinkActive="active-link">Checkout Sample Form</a>
-      <a mat-list-item routerLink="/profile-details" routerLinkActive="active-link">Detailed Profile Sample Form</a>
+      <a mat-list-item routerLink="/profile-details" [disabled]="!this.auth.signedIn$.value" routerLinkActive="active-link">Detailed Profile Sample Form</a>
       <a mat-list-item class="bottom" routerLink="/" routerLinkActive="active-link" [routerLinkActiveOptions]="{exact: true}">Dashboard</a>
     </mat-nav-list>
   </mat-sidenav>
@@ -23,15 +23,26 @@
       <ng-container *ngIf="!(isHandset$ | async)">
         <div [@navState]="navOpened ? 'open' : 'closed'" class="toggle-nav" (click)="drawer.toggle(); animateToggler()"></div>
       </ng-container>
-      <span>Sample Forms</span>
+      <span routerLink="" class="pointer">Sample Forms</span>
       <ng-container *ngIf="(isLoggedIn$ | async)">
         <div class="flex jc-end w100">
-          <span (click)="signOut()">Signout</span>
+          <span class="pointer" (click)="signOut()">Sign Out</span>
         </div>
       </ng-container>
-      <ng-container *ngIf="!(isLoggedIn$ | async)">
-        <div class="flex jc-end w100">
-          <span (click)="goToSignin()">Signin</span>
+      <ng-container *ngIf="!(isLoggedIn$ | async) && !(isHandset$ | async)">
+        <div class="flex jc-end w100 pad-children-x10">
+          <span class="pointer" (click)="goToSignin()"> Sign In</span>
+          <span> | </span>
+          <span class="pointer" (click)="goToSignup()"> Sign Up</span>
+        </div>
+      </ng-container>
+      <ng-container *ngIf="!(isLoggedIn$ | async) && (isHandset$ | async)">
+        <div class="flex jc-end w100 pad-children-x10">
+          <span class="pointer" (click)="openAccountMenu()">Account</span>
+          <div class="account-menu" [@accountMenuState] *ngIf="accountMenuOpen">
+            <span class="pointer" (click)="goToSignin()"> Sign In</span>
+            <span class="pointer" (click)="goToSignup()"> Sign Up</span>
+          </div>
         </div>
       </ng-container>
     </mat-toolbar>

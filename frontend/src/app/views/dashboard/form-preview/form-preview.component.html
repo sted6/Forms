@@ -5,17 +5,33 @@
   <mat-card-content>
       {{ description }}
   </mat-card-content>
-  <mat-card-actions align="start">
-      <button (click)="notLoggedIn()"mat-button>Download Component Files</button>
-      <button mat-button routerLink="/checkout">View Sample</button>
+  <div  (mouseenter)="hovered = true"
+        (mouseleave)="hovered = false">
+    <mat-card-actions align="start">
+      <button mat-button
+              [disabled]="!this.auth.signedIn$.value"
+              (click)="!this.auth.signedIn$.value ? notLoggedIn() : downloadFiles()"
+      >
+      <div *ngIf="!this.auth.signedIn$.value" (click)="notLoggedIn()">Download Component Files</div>
+      <div *ngIf="this.auth.signedIn$.value">Download Component Files</div>
+      </button>
+      <button mat-button
+              [disabled]="!this.auth.signedIn$.value && premium"
+              [routerLink]="url"><div *ngIf="!this.auth.signedIn$.value && premium" (click)="notLoggedIn()">View Sample</div>
+              <div *ngIf="this.auth.signedIn$.value || !premium">View Sample</div></button>
   </mat-card-actions>
   <div class="flex jc-center">
     <img
+      [routerLink]="this.auth.signedIn$.value || !premium ? url : null"
+      (click)="!this.auth.signedIn$.value && premium ? notLoggedIn() : null"
       *ngIf="hovered"
+      class="pointer"
+      [class.premium]="!this.auth.signedIn$.value && premium"
       [@hovered]
       matCardImage
       [src]="imageSrc"
       [alt]="imageAlt"
       class="small" />
+  </div>
   </div>
 </mat-card>

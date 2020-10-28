@@ -1,7 +1,7 @@
 import { AuthorizationService } from './../../authorization/authorization.service';
-import { Component } from '@angular/core';
+import { Component, OnDestroy } from '@angular/core';
 import { BreakpointObserver, Breakpoints } from '@angular/cdk/layout';
-import { Observable, Subject } from 'rxjs';
+import { Observable, Subject, Subscription } from 'rxjs';
 import { map, shareReplay } from 'rxjs/operators';
 import { animate, state, style, transition, trigger } from '@angular/animations';
 import { Router } from '@angular/router';
@@ -24,13 +24,31 @@ import { Router } from '@angular/router';
       transition('open => closed', [
         animate('.25s')
       ]),
+    ]),
+    trigger('accountMenuState', [
+      state('open', style({
+        bottom: '-64px',
+        opacity: 1
+      })),
+      state('closed', style({
+        opacity: 0,
+        bottom: '300px',
+      })),
+      transition('closed => open', [
+        animate('.25s')
+      ]),
+      transition('open => closed', [
+        animate('.25s')
+      ]),
     ])
   ]
 })
-export class MainNavComponent {
-  subs = {};
+export class MainNavComponent implements OnDestroy {
+  sub: Subscription;
   navOpened = true;
   navState: 'open' | 'closed' = 'open';
+  accountMenuOpen = false;
+  accountMenuState: 'open' | 'closed' = 'closed';
 
   isHandset$: Observable<boolean> = this.breakpointObserver.observe(Breakpoints.Handset)
     .pipe(
@@ -40,12 +58,10 @@ export class MainNavComponent {
 
   isLoggedIn$ = this.auth.signedIn$;
 
-  constructor(private breakpointObserver: BreakpointObserver, private auth: AuthorizationService, private router: Router) {
-    // this.subs['signedIn'] = this.auth.get
-  }
-
-  ngOnInit() {
-    console.log(this.isLoggedIn$);
+  constructor(private breakpointObserver: BreakpointObserver, public auth: AuthorizationService, private router: Router) {
+    this.sub = this.router.events.subscribe( events => {
+      this.accountMenuOpen = false;
+    });
   }
 
   animateToggler() {
@@ -59,10 +75,24 @@ export class MainNavComponent {
 
   goToSignin() {
     this.router.navigateByUrl('/signin');
+    this.accountMenuOpen = false;
+  }
+
+  goToSignup() {
+    this.router.navigateByUrl('/signup');
+    this.accountMenuOpen = false;
   }
 
   signOut() {
     this.auth.signout();
+  }
+
+  openAccountMenu() {
+    this.accountMenuOpen = !this.accountMenuOpen;
+  }
+
+  ngOnDestroy(): void {
+    this.sub.unsubscribe();
   }
 
 }

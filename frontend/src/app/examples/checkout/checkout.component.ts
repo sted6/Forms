@@ -110,7 +110,8 @@ export class CheckoutComponent implements OnDestroy{
     if (!this.checkoutForm.valid) {
       this.toast.error('Some of your information was incorrect. Please check the form for details.');
     } else {
-      this.toast.success('Thank you for your business!');
+      this.toast.success('Form submitted. Check the console for details.');
+      console.log(this.checkoutForm.value);
     }
   }
 }

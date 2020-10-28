@@ -31,7 +31,7 @@
       <div class="row">
         <div class="col">
           <mat-form-field class="full-width">
-            <textarea matInput placeholder="Address" formControlName="address"></textarea>
+            <textarea class="address" matInput placeholder="Address" formControlName="address"></textarea>
             <mat-error *ngIf="checkoutForm.controls['address'].hasError('required')">
               Address is <strong>required</strong>
             </mat-error>
@@ -48,7 +48,7 @@
       <div class="row" *ngIf="hasUnitNumber">
         <div class="col">
           <mat-form-field class="full-width">
-            <textarea matInput placeholder="Address 2" formControlName="address2"></textarea>
+            <textarea class="address" matInput placeholder="Address 2" formControlName="address2"></textarea>
           </mat-form-field>
         </div>
       </div>
@@ -175,7 +175,7 @@
         <div class="row">
           <div class="col">
             <mat-form-field class="full-width">
-              <textarea matInput placeholder="Address" formControlName="addressB"></textarea>
+              <textarea matInput placeholder="Address" class="address" formControlName="addressB"></textarea>
               <mat-error *ngIf="checkoutForm.controls['addressB'].hasError('required')">
                 Address is <strong>required</strong>
               </mat-error>
@@ -192,7 +192,7 @@
         <div class="row" *ngIf="hasUnitNumberB">
           <div class="col">
             <mat-form-field class="full-width">
-              <textarea matInput placeholder="Address 2" formControlName="address2B"></textarea>
+              <textarea class="address" matInput placeholder="Address 2" formControlName="address2B"></textarea>
             </mat-form-field>
           </div>
         </div>

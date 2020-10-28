@@ -1,7 +1,7 @@
 <mat-card>
+  <form [formGroup]="userForm" (ngSubmit)="signIn()">
     <mat-card-title>Sign In</mat-card-title>
     <mat-card-content>
-      <form [formGroup]="userForm">
         <mat-form-field>
           <mat-label>Username</mat-label>
           <input
@@ -19,6 +19,7 @@
           <mat-label>Password</mat-label>
           <input
             matInput
+            type="password"
             class="form-control"
             placeholder="password"
             name="password"
@@ -28,9 +29,9 @@
             required>
             <mat-error *ngIf="userForm.controls['password'].errors">Password is required.</mat-error>
         </mat-form-field>
-      </form>
     </mat-card-content>
     <mat-card-actions align="start">
-        <button mat-button (click)="signIn()">Sign In</button>
+        <button [disabled]="userForm.invalid" mat-button type="submit">Sign In</button>
     </mat-card-actions>
+  </form>
 </mat-card>
