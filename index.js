@@ -1,6 +1,6 @@
+const port = process.env.PORT || 5000;
 const app = require('express')();
 const bodyParser = require('body-parser');
-
 // create application/json parser
 const jsonParser = bodyParser.json();
 // create application/x-www-form-urlencoded parser
@@ -104,12 +104,17 @@ app.post('/api/username/', jsonParser, async (req, res) => {
               res.send({message: 'username available'});
             }
           });
-          
+
   } catch (err) {
     // console.error(err);
     res.send(err.error);
   }
 })
 
+//Route for fetching frontend
+app.get('*', (request, response) => {
+	response.sendFile(path.join(__dirname, 'frontend/dist/forms', 'index.html'));
+});
 
-app.listen(5000, () => console.log('Server running on port 5000'));
+
+app.listen(port, () => console.log('Server running on port: ' + port));
