@@ -2,7 +2,10 @@
   "name": "formsamples",
   "version": "1.0.0",
   "description": "A simple app for viewing and downloading sample forms based on a simple CRUD API. Built on Angular10 featuring Angular Material.",
-  "main": "index.js",
+  "main": "src/index.js",
+  "engines": {
+    "node": "10.x"
+  },
   "scripts": {
     "start": "node src/index.js",
     "test": "echo \"Error: no test specified\" && exit 1",
