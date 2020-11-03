@@ -1,6 +1,9 @@
 const port = process.env.PORT || 5000;
 const app = require('express')();
 const bodyParser = require('body-parser');
+// Server setup
+const server = require('http').Server(app);
+const path = require('path');
 // create application/json parser
 const jsonParser = bodyParser.json();
 // create application/x-www-form-urlencoded parser
@@ -119,4 +122,4 @@ app.get('*', (request, response) => {
 });
 
 
-app.listen(port, () => console.log('Server running on port: ' + port));
+server.listen(port, () => console.log('Server running on port: ' + port));
