@@ -45,7 +45,7 @@ export class AuthorizationService {
           if (response.description === 'document is not unique.') {
             this.toast.error('Sorry that username is already taken.');
           } else {
-            console.log(response);
+            // console.log(response);
             this.toast.success('Account created. Please sign in now.');
           }
         })
@@ -60,7 +60,7 @@ export class AuthorizationService {
     try {
       return this.http.post<any>('/api/signin/', credentials).pipe(
         tap((response) => {
-          console.log(response);
+          // console.log(response);
           if (response.secret) {
             this.signedIn$.next(true);
             this.userSecret$.next(response.secret);
@@ -77,14 +77,14 @@ export class AuthorizationService {
         })
       ).toPromise();
     } catch (err) {
-      console.log(err);
+      // console.log(err);
       this.toast.error('Sorry there was a problem signing you in.');
     }
   }
 
   async getUser(userId) {
     return this.http.get<any>('/api/user', userId).toPromise().then( res => {
-      console.log(res);
+      // console.log(res);
     });
   }
 
@@ -103,7 +103,7 @@ export class AuthorizationService {
         })
       ).toPromise();
     } catch (err) {
-      console.log(err);
+      // console.log(err);
       this.toast.error('Sorry there was a problem signing you out.');
     }
   }

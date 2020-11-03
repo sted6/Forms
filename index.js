@@ -52,7 +52,7 @@ app.get('/api/users/', async (req, res) => {
 
 app.post('/api/signup/', jsonParser, async (req, res) => {
     const data = req.body;
-    console.log(data);
+    // console.log(data);
     try {
         const doc = await client.query(
             q.Create(
@@ -104,7 +104,7 @@ app.post('/api/username/', jsonParser, async (req, res) => {
         q.Match(
           q.Index("users_by_username"), data.username)))
           .then((ret) => {
-            console.log(ret);
+            // console.log(ret);
             if (ret) {
               res.send({message: 'username unavailable'});
             } else {

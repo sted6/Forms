@@ -34,9 +34,9 @@ export class SignupComponent implements OnInit {
     if (this.auth.signedIn$.value) {
       this.router.navigateByUrl('/');
     }
-    const sub = this.userForm.valueChanges.subscribe( changes => {
-      console.log(this.userForm.controls.passwordConf.errors);
-    });
+    // const sub = this.userForm.valueChanges.subscribe( changes => {
+    //   console.log(this.userForm.controls.passwordConf.errors);
+    // });
   }
 
   async signUp() {

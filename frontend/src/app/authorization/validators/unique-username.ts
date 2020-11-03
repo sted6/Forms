@@ -9,10 +9,10 @@ export class UniqueUsername implements AsyncValidator {
     constructor(private authService: AuthorizationService) {}
 
     validate = async (control: FormControl) => {
-      console.log(control.value);
+      // console.log(control.value);
       return this.authService.usernameAvailable(control.value).then( res => {
         if (res) {
-          console.log(res);
+          // console.log(res);
           if (res.message === 'username available') {
             return null;
           }
@@ -21,7 +21,7 @@ export class UniqueUsername implements AsyncValidator {
           }
         }
       }).catch( err => {
-        console.log(err.message);
+        // console.log(err.message);
         return null;
       });
    }
