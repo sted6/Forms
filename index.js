@@ -14,6 +14,8 @@ const client = new faunadb.Client({ secret: 'fnAD5MWGThACDLCRURRQOsUvKPQ-5uHiytz
 
 // const app = express();
 // app.use(bodyParser.json());
+app.use(cors());
+app.use(express.static('frontend/dist/Forms'));
 
 app.get('/api/users/', async (req, res) => {
     client.query(
