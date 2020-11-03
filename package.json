@@ -1,10 +1,12 @@
 {
   "name": "formsamples",
   "version": "1.0.0",
-  "description": "A collection of responsive sample forms. Features authorization.",
+  "description": "A simple app for viewing and downloading sample forms based on a simple CRUD API. Built on Angular10 featuring Angular Material.",
   "main": "index.js",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "start": "node src/index.js",
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "heroku-postbuild": "cd frontend && npm install && ng build --prod"
   },
   "repository": {
     "type": "git",
