@@ -1,0 +1,7 @@
+  
+{
+    "name": "Forms",
+    "description": "A simple app for viewing and downloading sample forms based on a simple CRUD API. Built on Angular10 featuring Angular Material.",
+    "repository": "hthttps://github.com/sted6/Forms",
+    "keywords": ["node", "express", "angular-2"]
+}

@@ -58,6 +58,7 @@ export class MainNavComponent implements OnDestroy {
 
   isLoggedIn$ = this.auth.signedIn$;
 
+
   constructor(private breakpointObserver: BreakpointObserver, public auth: AuthorizationService, private router: Router) {
     this.sub = this.router.events.subscribe( events => {
       this.accountMenuOpen = false;

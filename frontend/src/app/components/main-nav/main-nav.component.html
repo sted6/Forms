@@ -24,9 +24,19 @@
         <div [@navState]="navOpened ? 'open' : 'closed'" class="toggle-nav" (click)="drawer.toggle(); animateToggler()"></div>
       </ng-container>
       <span routerLink="" class="pointer">Sample Forms</span>
-      <ng-container *ngIf="(isLoggedIn$ | async)">
+      <ng-container *ngIf="(isLoggedIn$ | async) && !(isHandset$ | async)">
+        <div class="flex jc-end w100 pad-children-x10">
+          <span *ngIf="this.auth.userName$">{{ this.auth.userName$ | async }} </span>
+          <span> | </span>
+          <span class="pointer" (click)="signOut()"> Sign Out</span>
+        </div>
+      </ng-container>
+      <ng-container *ngIf="(isLoggedIn$ | async) && (isHandset$ | async)">
         <div class="flex jc-end w100">
-          <span class="pointer" (click)="signOut()">Sign Out</span>
+          <span class="pointer" (click)="openAccountMenu()">{{ this.auth.userName$ | async }}</span>
+          <div class="account-menu" [@accountMenuState] *ngIf="accountMenuOpen">
+            <span class="pointer keep-white-space" (click)="signOut()"> Sign Out</span>
+          </div>
         </div>
       </ng-container>
       <ng-container *ngIf="!(isLoggedIn$ | async) && !(isHandset$ | async)">

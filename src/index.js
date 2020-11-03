@@ -2,7 +2,7 @@ const app = require('express')();
 const bodyParser = require('body-parser');
 
 // create application/json parser
-const jsonParser = bodyParser.json()
+const jsonParser = bodyParser.json();
 // create application/x-www-form-urlencoded parser
 // for login
 const urlencodedParser = bodyParser.urlencoded({ extended: false });
@@ -24,6 +24,24 @@ app.get('/api/users/', async (req, res) => {
         )
         .then((ret) => res.send(ret)).catch(err => console.log(err));
 });
+
+// Route to get username. Under construction.
+
+// app.get('/api/user/', jsonParser, async (req, res) => {
+//   const data = req.body;
+//   console.log(req.body);
+//   client.query(
+//     q.Get(q.Ref(q.Collection('users'), data.id))
+//   )
+//   .then((ret) => {
+//     console.log(ret);
+//     res.send(ret);
+//   }).catch(err => {
+//     console.log(err);
+//     res.send(err);
+//   })
+// });
+
 
 app.post('/api/signup/', jsonParser, async (req, res) => {
     const data = req.body;
@@ -49,7 +67,6 @@ app.post('/api/signup/', jsonParser, async (req, res) => {
 
 app.post('/api/signin/', jsonParser, async (req, res) => {
     const data = req.body;
-    console.log(data);
     try {
         const doc = await client.query(
             q.Login(
@@ -71,6 +88,28 @@ app.post('/api/signout/', (req,res) => {
     res.send(err);
   }
 });
+
+app.post('/api/username/', jsonParser, async (req, res) => {
+  const data = req.body;
+  try {
+    const doc = await client.query(
+      q.Get(
+        q.Match(
+          q.Index("users_by_username"), data.username)))
+          .then((ret) => {
+            console.log(ret);
+            if (ret) {
+              res.send({message: 'username unavailable'});
+            } else {
+              res.send({message: 'username available'});
+            }
+          });
+          
+  } catch (err) {
+    // console.error(err);
+    res.send(err.error);
+  }
+})
 
 
 app.listen(5000, () => console.log('Server running on port 5000'));

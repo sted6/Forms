@@ -13,7 +13,8 @@
             id="username"
             selected="data.username"
             required>
-          <mat-error *ngIf="userForm.controls['username'].errors && userForm.controls['username'].touched">Username is required.</mat-error>
+          <mat-error *ngIf="userForm.controls['username'].hasError('required') && userForm.controls['username'].touched">Username is required.</mat-error>
+          <mat-error *ngIf="userForm.controls['username'].hasError('nonUniqueUsername') && userForm.controls['username'].touched">Username is required.</mat-error>
         </mat-form-field>
         <mat-form-field>
           <mat-label>Password</mat-label>
@@ -49,4 +50,5 @@
         <button mat-button [disabled]="userForm.invalid" type="submit">Sign Up</button>
     </mat-card-actions>
   </form>
+  <!-- {{ userForm.errors | json }} -->
 </mat-card>

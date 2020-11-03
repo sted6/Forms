@@ -1,29 +1,36 @@
+import { AuthorizationService } from './../authorization.service';
 import { Injectable } from '@angular/core';
-import { AsyncValidator, FormControl } from '@angular/forms';
-import { map, catchError } from "rxjs/operators";
+import { AsyncValidator, FormControl, FormGroup } from '@angular/forms';
+import { map, catchError } from 'rxjs/operators';
 import { of } from 'rxjs';
-import { AuthService } from '../auth.service';
 
 @Injectable({ providedIn: 'root' })
 export class UniqueUsername implements AsyncValidator {
-    constructor(private authService: AuthService) {}
+    constructor(private authService: AuthorizationService) {}
 
-    validate = (control: FormControl) => {
-        const { value } = control;
+    validate = async (control: FormControl) => {
+      console.log(control.value);
+      return this.authService.usernameAvailable(control.value).then( res => {
+        if (res) {
+          console.log(res);
+          if (res.message === 'username available') {
+            return null;
+          }
+          if (res.message === 'username unavailable') {
+            return { nonUniqueUsername: true };
+          }
+        }
+      }).catch( err => {
+        console.log(err.message);
+        return null;
+      });
+   }
 
-        return this.authService.usernameAvailable(value).pipe(
-            map((value) => {
-                console.log(value);
-                return null;
-            }),
-            catchError((err) => {
-                console.log(err);
-                if(err.error.username) {
-                    return of({ nonUniqueUsername: true })
-                } else {
-                    return of({ networkError: true})
-                }
-            })
-        );
-    };
+   validateForm = async (form: FormGroup) => {
+     return this.authService.usernameAvailable(form.controls.username.value).then( res => {
+       if (res) {
+         form.controls.username.setErrors({nonUniqueUsername: true});
+       }
+     });
+   }
 }

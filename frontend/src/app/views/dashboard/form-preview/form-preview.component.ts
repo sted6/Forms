@@ -48,7 +48,7 @@ export class FormPreviewComponent implements OnInit {
   }
 
   notLoggedIn() {
-    this.toast.error('You must be logged in to do that!');
+    this.toast.warning('You must be logged in to do that!');
   }
 
 

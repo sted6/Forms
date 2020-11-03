@@ -78,3 +78,7 @@ body { margin: 0; font-family: Roboto, "Helvetica Neue", sans-serif; }
 .mat-button.mat-button-disabled {
   cursor: not-allowed !important;
 }
+
+.keep-white-space {
+  white-space: pre-wrap;
+}
